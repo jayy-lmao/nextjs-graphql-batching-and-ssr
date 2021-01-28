@@ -12,7 +12,7 @@ export const ALL_CHARACTERS = gql`
 `;
 
 export const A_CHARACTER = gql`
-    query character($id: ID!) {
+    query character($id: Int!) {
         character(id: $id) {
                 id
                 name

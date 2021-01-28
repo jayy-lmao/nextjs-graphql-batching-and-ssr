@@ -7,7 +7,7 @@ import {
 } from '../src/queries';
 
 const IndexPage = () => {
-  const [charId, setCharId] = React.useState("1");
+  const [charId, setCharId] = React.useState(1);
   const {loading, error, data} = useQuery(ALL_CHARACTERS);
   const {loading: charLoading, error: charError, data: charData} = useQuery(A_CHARACTER, {variables: {id: charId}});
   if (error || charError) return <h1>Error</h1>;
