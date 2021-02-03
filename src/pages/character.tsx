@@ -1,10 +1,11 @@
 import React from 'react';
 import {withApollo} from '../libs/apollo';
-import {useQuery} from '@apollo/react-hooks';
-import {ALL_CHARACTERS} from '../src/queries';
+// import {useQuery} from '@apollo/react-hooks';
+// import {ALL_CHARACTERS} from '../src/queries';
+import {useGetAllCharactersQuery} from '../../__generated__/graphql';
 
 const IndexPage = () => {
-  const {loading, error, data} = useQuery(ALL_CHARACTERS);
+  const {loading, error, data} = useGetAllCharactersQuery();
   if (error) return <h1>Error</h1>;
   if (loading) return <h1>Loading...</h1>;
 

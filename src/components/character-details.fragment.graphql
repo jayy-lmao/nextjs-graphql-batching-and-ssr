@@ -1,0 +1,6 @@
+fragment CharacterDetails on Character {
+    id
+    name
+    type
+    image
+}

@@ -1,0 +1,7 @@
+query GetOneCharacter($id: Int!) {
+    character(id: $id) {
+            id
+            name
+            ...CharacterDetails
+    }
+}

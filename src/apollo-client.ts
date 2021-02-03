@@ -12,7 +12,6 @@ export default function createApolloClient(initialState, ctx) {
   // use it to extract auth headers (ctx.req) or similar.
   return new ApolloClient({
     ssrMode: Boolean(ctx),
-    shouldBatch: true,
     link: new BatchHttpLink({
       //uri: 'https://rickandmortyapi.com/graphql', // Server URL (must be absolute)
       uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)

@@ -2,7 +2,7 @@ import React from 'react';
 import App from 'next/app';
 import Head from 'next/head';
 import {ApolloProvider} from '@apollo/react-hooks';
-import createApolloClient from '../src/apollo-client';
+import createApolloClient from '../apollo-client';
 
 /*
   * This all comes from https://dev.to/angad777/setting-up-apollo-graphql-in-next-js-with-server-side-rendering-45l5
