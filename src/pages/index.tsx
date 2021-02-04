@@ -40,7 +40,7 @@ const IndexPage = ({ id }: { id: number }) => {
 
 export default IndexPage;
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const id = 1;
   const apolloClient = initializeApollo()
   await apolloClient.query({
