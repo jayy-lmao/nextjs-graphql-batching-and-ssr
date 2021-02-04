@@ -6,7 +6,7 @@
     "dev": "concurrently \"next dev\" \"yarn generate --watch\"",
     "build": "yarn generate && next build",
     "start": "yarn generate && next start",
-    "watch": "next dev",
+    "watch": "yarn dev",
     "generate": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
