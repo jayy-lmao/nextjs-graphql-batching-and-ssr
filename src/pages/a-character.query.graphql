@@ -1,3 +1,5 @@
+#import "../components/character-details.fragment.graphql"
+
 query GetOneCharacter($id: Int!) {
     character(id: $id) {
             id

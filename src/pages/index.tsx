@@ -1,12 +1,20 @@
 import React from 'react';
-import {withApollo} from '../libs/apollo';
-import {useGetAllCharactersQuery, useGetOneCharacterQuery} from '../../__generated__/graphql';
-import {CharacterDetails} from '../components/character-details';
+import { useGetAllCharactersQuery, useGetOneCharacterQuery } from '../../__generated__/graphql';
+import { CharacterDetails } from '../components/character-details';
+import { addApolloState, initializeApollo } from '../libs/apollo';
 
-const IndexPage = () => {
-  const [charId, setCharId] = React.useState(1);
-  const {loading, error, data} = useGetAllCharactersQuery();
-  const {loading: charLoading, error: charError, data: charData} = useGetOneCharacterQuery({variables: {id: charId}});
+import ALL_CHARACTERS_QUERY from './all-characters.query.graphql';
+import A_CHARACTER_QUERY from './a-character.query.graphql';
+
+
+const IndexPage = ({ id }: { id: number }) => {
+  console.log({ id })
+  const [charId, setCharId] = React.useState(id);
+  const { loading, error, data } = useGetAllCharactersQuery();
+  const { loading: charLoading, error: charError, data: charData } = useGetOneCharacterQuery({ variables: { id: charId } });
+
+  console.log({ data, charData })
+
   if (error || charError) return <h1>Error</h1>;
   if (loading || charLoading) return <h1>Loading...</h1>;
 
@@ -22,7 +30,7 @@ const IndexPage = () => {
       <div>
         {data.characters.results.map((data) => (
           <ul key={data.id}>
-            <li onClick={() => {setCharId(data.id)}}> {data.name}</li>
+            <li onClick={() => { setCharId(data.id) }}> {data.name}</li>
           </ul>
         ))}
       </div>
@@ -30,4 +38,23 @@ const IndexPage = () => {
   );
 };
 
-export default withApollo({ssr: true})(IndexPage);
+export default IndexPage;
+
+export async function getStaticProps() {
+  const id = 1;
+  const apolloClient = initializeApollo()
+  await apolloClient.query({
+    query: ALL_CHARACTERS_QUERY,
+  })
+  await apolloClient.query({
+    query: A_CHARACTER_QUERY,
+    variables: { id }
+  })
+
+
+  return addApolloState(apolloClient, {
+    props: { id },
+    revalidate: 1,
+  })
+}
+

@@ -1,5 +1,4 @@
 import React from 'react';
-import {withApollo} from '../libs/apollo';
 // import {useQuery} from '@apollo/react-hooks';
 // import {ALL_CHARACTERS} from '../src/queries';
 import {useGetAllCharactersQuery} from '../../__generated__/graphql';
@@ -25,4 +24,4 @@ const IndexPage = () => {
   );
 };
 
-export default withApollo({ssr: true})(IndexPage);
+export default IndexPage;
