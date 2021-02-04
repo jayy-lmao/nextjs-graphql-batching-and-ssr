@@ -1,4 +1,6 @@
 import React from 'react';
+import Link from 'next/link'
+
 import { useGetAllCharactersQuery, useGetOneCharacterQuery } from '../../__generated__/graphql';
 import { CharacterDetails } from '../components/character-details';
 import { addApolloState, initializeApollo } from '../libs/apollo';
@@ -8,12 +10,9 @@ import A_CHARACTER_QUERY from './a-character.query.graphql';
 
 
 const IndexPage = ({ id }: { id: number }) => {
-  console.log({ id })
-  const [charId, setCharId] = React.useState(id);
   const { loading, error, data } = useGetAllCharactersQuery();
-  const { loading: charLoading, error: charError, data: charData } = useGetOneCharacterQuery({ variables: { id: charId } });
+  const { loading: charLoading, error: charError, data: charData } = useGetOneCharacterQuery({ variables: { id } });
 
-  console.log({ data, charData })
 
   if (error || charError) return <h1>Error</h1>;
   if (loading || charLoading) return <h1>Loading...</h1>;
@@ -30,7 +29,9 @@ const IndexPage = ({ id }: { id: number }) => {
       <div>
         {data.characters.results.map((data) => (
           <ul key={data.id}>
-            <li onClick={() => { setCharId(data.id) }}> {data.name}</li>
+            <li>
+              <Link href={`/?id=${data.id}`}>{data.name}</Link>
+            </li>
           </ul>
         ))}
       </div>
@@ -40,8 +41,8 @@ const IndexPage = ({ id }: { id: number }) => {
 
 export default IndexPage;
 
-export async function getServerSideProps() {
-  const id = 1;
+export async function getServerSideProps({req, query}) {
+  const id = query?.id || 1;
   const apolloClient = initializeApollo()
   await apolloClient.query({
     query: ALL_CHARACTERS_QUERY,
@@ -52,9 +53,10 @@ export async function getServerSideProps() {
   })
 
 
-  return addApolloState(apolloClient, {
+  const state = addApolloState(apolloClient, {
     props: { id },
-    revalidate: 1,
   })
+  return state;
 }
+
 
